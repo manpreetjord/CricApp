@@ -1,6 +1,5 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import Header from './components/layout/Header';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import { ThemeProvider } from './context/ThemeContext';
@@ -17,38 +16,52 @@ const PlayerProfile = lazy(() => import('./components/players/PlayerProfile'));
 // Loading fallback
 const LoadingFallback = () => <LoadingSpinner size="lg" />;
 
+// Custom hook for page transitions
+function usePageTransition() {
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState('');
+  const location = useLocation();
+
+  useEffect(() => {
+    if (currentLocation !== location.pathname) {
+      setIsTransitioning(true);
+      const timer = setTimeout(() => {
+        setCurrentLocation(location.pathname);
+        setIsTransitioning(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [location, currentLocation]);
+
+  return {
+    className: isTransitioning ? 'page-exit-active' : 'page-enter-active',
+    style: { 
+      opacity: isTransitioning ? 0 : 1,
+      transform: isTransitioning ? 'translateY(10px)' : 'translateY(0)',
+      transition: 'opacity 300ms, transform 300ms'
+    }
+  };
+}
+
 // Animated routes wrapper
 const AnimatedRoutes = () => {
+  const pageTransition = usePageTransition();
   const location = useLocation();
   
   return (
-    <SwitchTransition mode="out-in">
-      <CSSTransition
-        key={location.key}
-        timeout={300}
-        classNames={{
-          enter: 'page-enter',
-          enterActive: 'page-enter-active',
-          exit: 'page-exit',
-          exitActive: 'page-exit-active',
-        }}
-        unmountOnExit
-      >
-        <div className="container mx-auto px-4 py-6 dark:text-gray-100">
-          <Routes location={location}>
-            <Route path="/" element={<Home />} />
-            <Route path="/match" element={<MatchPage />} />
-            <Route path="/match/:id" element={<MatchPage />} />
-            <Route path="/scorecard" element={<Scorecard />} />
-            <Route path="/scorecard/:matchId" element={<ScorecardDetail />} />
-            <Route path="/player-stats" element={<PlayerStats />} />
-            <Route path="/live-match" element={<LiveMatch />} />
-            <Route path="/live-match/:id" element={<LiveMatch />} />
-            <Route path="/players/:playerId" element={<PlayerProfile />} />
-          </Routes>
-        </div>
-      </CSSTransition>
-    </SwitchTransition>
+    <div className="container mx-auto px-4 py-6 dark:text-gray-100 fade-in" {...pageTransition}>
+      <Routes location={location}>
+        <Route path="/" element={<Home />} />
+        <Route path="/match" element={<MatchPage />} />
+        <Route path="/match/:id" element={<MatchPage />} />
+        <Route path="/scorecard" element={<Scorecard />} />
+        <Route path="/scorecard/:matchId" element={<ScorecardDetail />} />
+        <Route path="/player-stats" element={<PlayerStats />} />
+        <Route path="/live-match" element={<LiveMatch />} />
+        <Route path="/live-match/:id" element={<LiveMatch />} />
+        <Route path="/players/:playerId" element={<PlayerProfile />} />
+      </Routes>
+    </div>
   );
 };
 
