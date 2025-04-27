@@ -32,12 +32,21 @@ function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("Header component isDarkMode:", isDarkMode);
+  }, [isDarkMode]);
+
   return (
     <header 
       className={`bg-blue-700 dark:bg-gray-800 text-white shadow-md sticky top-0 z-50 transition-all duration-300 ${
         isScrolled ? 'shadow-lg' : ''
       }`}
     >
+      {/* For debugging, show current theme */}
+      <div className="hidden">
+        Current theme: {isDarkMode ? 'dark' : 'light'}
+      </div>
+      
       <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="w-full md:w-auto flex justify-between items-center">
           <Link 

@@ -5,8 +5,12 @@ const ThemeToggle = () => {
 
   return (
     <button
-      onClick={toggleTheme}
-      className="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+      type="button"
+      onClick={() => {
+        console.log("Theme toggle clicked, current theme:", isDarkMode ? "dark" : "light");
+        toggleTheme();
+      }}
+      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 active:scale-95"
       aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
     >
       {isDarkMode ? (

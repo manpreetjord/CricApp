@@ -7,50 +7,56 @@ const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }) => {
-  // Check if user has previously set a preference in localStorage
-  const storedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  
-  // Initialize theme state (dark if stored as 'dark' or if no preference and system is dark)
-  const [isDarkMode, setIsDarkMode] = useState(
-    storedTheme ? storedTheme === 'dark' : prefersDark
-  );
-
-  // Toggle between light and dark mode
-  const toggleTheme = () => {
-    setIsDarkMode(prev => !prev);
-  };
-
-  // Update document class and localStorage when theme changes
-  useEffect(() => {
-    const rootElement = window.document.documentElement;
+  // Set initial state based on localStorage or system preference
+  const getInitialTheme = () => {
+    // Check localStorage first
+    const savedTheme = localStorage.getItem('theme');
     
-    if (isDarkMode) {
-      rootElement.classList.add('dark');
+    if (savedTheme) {
+      return savedTheme === 'dark';
+    }
+    
+    // If no saved preference, use system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  };
+  
+  const [isDarkMode, setIsDarkMode] = useState(getInitialTheme());
+
+  // Apply theme change to DOM and localStorage
+  const applyTheme = (dark) => {
+    const root = document.documentElement;
+    
+    if (dark) {
+      root.classList.add('dark');
       localStorage.setItem('theme', 'dark');
     } else {
-      rootElement.classList.remove('dark');
+      root.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
-  }, [isDarkMode]);
+  };
 
-  // Listen for system theme changes
+  // Toggle theme function
+  const toggleTheme = () => {
+    setIsDarkMode((prev) => {
+      const newMode = !prev;
+      applyTheme(newMode);
+      console.log("Theme toggled to:", newMode ? "dark" : "light");
+      return newMode;
+    });
+  };
+
+  // Apply theme on initial render
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e) => {
-      // Only change theme if user hasn't manually set a preference
-      if (!localStorage.getItem('theme')) {
-        setIsDarkMode(e.matches);
-      }
-    };
-
-    // Add listener for system theme changes
-    mediaQuery.addEventListener('change', handleChange);
-    
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    applyTheme(isDarkMode);
+    console.log("Initial theme applied:", isDarkMode ? "dark" : "light");
   }, []);
 
-  // Provide theme state and toggle function to children
+  // Apply theme changes when isDarkMode changes
+  useEffect(() => {
+    applyTheme(isDarkMode);
+    console.log("Theme changed to:", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
+
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
       {children}

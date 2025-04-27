@@ -66,6 +66,22 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
+  // Ensure dark mode is properly initialized on load
+  useEffect(() => {
+    // Check localStorage first
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Apply theme class based on preference
+    if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+      document.documentElement.classList.add('dark');
+      console.log("App.jsx: Set dark mode on load");
+    } else {
+      document.documentElement.classList.remove('dark');
+      console.log("App.jsx: Set light mode on load");
+    }
+  }, []);
+
   return (
     <ThemeProvider>
       <Router>
