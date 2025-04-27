@@ -19,6 +19,9 @@ function SearchResults({ matches, players, isVisible, onClose }) {
     return name.toLowerCase().replace(/\s+/g, '-');
   };
 
+  // Consistent player URL path
+  const PLAYER_URL_PATH = '/players/';
+
   return (
     <div 
       ref={resultsRef}
@@ -66,7 +69,7 @@ function SearchResults({ matches, players, isVisible, onClose }) {
               {players.map((player, index) => (
                 <li key={player.id || player.name} style={{ animationDelay: `${(index + matches.length) * 50}ms` }} className="fade-in">
                   <Link
-                    to={`/player/${getPlayerId(player.name)}`}
+                    to={`${PLAYER_URL_PATH}${getPlayerId(player.name)}`}
                     className="block px-3 py-2 hover:bg-green-50 dark:hover:bg-green-900/30 rounded-md transition-all duration-300 text-gray-800 dark:text-gray-200 transform hover:-translate-y-1 hover:shadow-md"
                     onClick={onClose}
                   >

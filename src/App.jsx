@@ -4,6 +4,9 @@ import Header from './components/layout/Header';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import { ThemeProvider } from './context/ThemeContext';
 
+// Import TestSuite for development only
+const TestSuite = lazy(() => import('./components/testing/TestSuite'));
+
 // Lazy load page components
 const Home = lazy(() => import('./pages/Home'));
 const MatchPage = lazy(() => import('./pages/MatchPage'));
@@ -66,6 +69,9 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
+  // Environment flags
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
   // Ensure dark mode is properly initialized on load
   useEffect(() => {
     // Check localStorage first
@@ -90,6 +96,13 @@ function App() {
           <Suspense fallback={<LoadingFallback />}>
             <AnimatedRoutes />
           </Suspense>
+          
+          {/* Test suite for development only */}
+          {isDevelopment && (
+            <Suspense fallback={null}>
+              <TestSuite isEnabled={isDevelopment} />
+            </Suspense>
+          )}
         </div>
       </Router>
     </ThemeProvider>
