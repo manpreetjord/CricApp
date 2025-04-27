@@ -1,8 +1,15 @@
+import Search from '../search/Search';
+
 function Header() {
   return (
     <header className="bg-blue-700 text-white shadow-md">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <h1 className="text-2xl font-bold">CricApp</h1>
+        
+        <div className="w-full md:w-auto md:flex-1 max-w-xl px-2">
+          <Search />
+        </div>
+        
         <nav className="hidden md:block">
           <ul className="flex space-x-6">
             <li className="hover:text-blue-200 font-medium">Matches</li>
@@ -12,7 +19,7 @@ function Header() {
         </nav>
       </div>
     </header>
-  )
+  );
 }
 
-export default Header 
+export default Header; 
