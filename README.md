@@ -23,7 +23,7 @@ A modern, responsive web application for tracking cricket matches, scores, and p
 
 ## Live Demo
 
-Visit the live application: [CricApp Live](https://cricapp-live.vercel.app)
+Visit the live application: [CricApp Live](https://cricapp-live.netlify.app)
 
 ## Getting Started
 
@@ -67,15 +67,17 @@ The build files will be located in the `dist` directory and can be deployed to a
 
 ## Deployment
 
-The application is currently deployed on Vercel. To deploy your own instance:
+The application is currently deployed on Netlify. To deploy your own instance:
 
 1. Fork this repository
-2. Sign up for an account on [Vercel](https://vercel.com)
+2. Sign up for an account on [Netlify](https://netlify.com)
 3. Create a new project and connect your GitHub repository
 4. Deploy with the following settings:
    - Framework Preset: Vite
    - Build Command: npm run build
    - Output Directory: dist
+   
+For optimal routing configuration, add a `netlify.toml` file as included in this repository.
 
 ## Project Structure
 

@@ -4,7 +4,7 @@ Use this checklist to verify that all features of CricApp are working correctly 
 
 ## Basic Functionality
 
-- [ ] Application loads successfully at the production URL
+- [ ] Application loads successfully at the Netlify production URL
 - [ ] No console errors appear in the browser developer tools
 - [ ] Home page displays live matches
 - [ ] Navigation links work correctly
@@ -63,8 +63,9 @@ Use this checklist to verify that all features of CricApp are working correctly 
 
 ## Final Steps
 
-- [ ] Update README.md with final production URL if needed
+- [ ] Update README.md with final Netlify production URL if needed
 - [ ] Push final changes to the repository
+- [ ] Set up Netlify site settings (custom domain, HTTPS, etc.)
 - [ ] Share the URL with team members or stakeholders for final feedback
 - [ ] Consider setting up monitoring tools for production (e.g., Google Analytics, Sentry)
 
