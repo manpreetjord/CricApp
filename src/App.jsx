@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import Header from './components/layout/Header';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import { ThemeProvider } from './context/ThemeContext';
@@ -16,6 +17,41 @@ const PlayerProfile = lazy(() => import('./components/players/PlayerProfile'));
 // Loading fallback
 const LoadingFallback = () => <LoadingSpinner size="lg" />;
 
+// Animated routes wrapper
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  
+  return (
+    <SwitchTransition mode="out-in">
+      <CSSTransition
+        key={location.key}
+        timeout={300}
+        classNames={{
+          enter: 'page-enter',
+          enterActive: 'page-enter-active',
+          exit: 'page-exit',
+          exitActive: 'page-exit-active',
+        }}
+        unmountOnExit
+      >
+        <div className="container mx-auto px-4 py-6 dark:text-gray-100">
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/match" element={<MatchPage />} />
+            <Route path="/match/:id" element={<MatchPage />} />
+            <Route path="/scorecard" element={<Scorecard />} />
+            <Route path="/scorecard/:matchId" element={<ScorecardDetail />} />
+            <Route path="/player-stats" element={<PlayerStats />} />
+            <Route path="/live-match" element={<LiveMatch />} />
+            <Route path="/live-match/:id" element={<LiveMatch />} />
+            <Route path="/players/:playerId" element={<PlayerProfile />} />
+          </Routes>
+        </div>
+      </CSSTransition>
+    </SwitchTransition>
+  );
+};
+
 function App() {
   return (
     <ThemeProvider>
@@ -23,19 +59,7 @@ function App() {
         <div className="min-h-screen transition-colors duration-200 dark:bg-gray-900">
           <Header />
           <Suspense fallback={<LoadingFallback />}>
-            <div className="container mx-auto px-4 py-6 dark:text-gray-100">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/match" element={<MatchPage />} />
-                <Route path="/match/:id" element={<MatchPage />} />
-                <Route path="/scorecard" element={<Scorecard />} />
-                <Route path="/scorecard/:matchId" element={<ScorecardDetail />} />
-                <Route path="/player-stats" element={<PlayerStats />} />
-                <Route path="/live-match" element={<LiveMatch />} />
-                <Route path="/live-match/:id" element={<LiveMatch />} />
-                <Route path="/players/:playerId" element={<PlayerProfile />} />
-              </Routes>
-            </div>
+            <AnimatedRoutes />
           </Suspense>
         </div>
       </Router>

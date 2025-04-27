@@ -34,7 +34,7 @@ function Header() {
 
   return (
     <header 
-      className={`bg-blue-700 dark:bg-gray-800 text-white shadow-md sticky top-0 z-50 transition-colors duration-200 ${
+      className={`bg-blue-700 dark:bg-gray-800 text-white shadow-md sticky top-0 z-50 transition-all duration-300 ${
         isScrolled ? 'shadow-lg' : ''
       }`}
     >
@@ -42,7 +42,7 @@ function Header() {
         <div className="w-full md:w-auto flex justify-between items-center">
           <Link 
             to="/" 
-            className="text-2xl font-bold hover:text-blue-200 dark:hover:text-blue-300 focus:outline-none focus:text-blue-200 transition-colors"
+            className="text-2xl font-bold hover:text-blue-200 dark:hover:text-blue-300 focus:outline-none focus:text-blue-200 transition-all duration-300 transform hover:scale-105"
           >
             CricApp
           </Link>
@@ -50,13 +50,13 @@ function Header() {
           <div className="flex items-center gap-4 md:hidden">
             <ThemeToggle />
             <button 
-              className="text-white focus:outline-none" 
+              className="text-white focus:outline-none transition-transform duration-300 hover:scale-110"
               onClick={toggleMobileMenu}
               aria-label="Toggle menu"
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 {mobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
                 ) : (
@@ -76,7 +76,7 @@ function Header() {
             <li>
               <Link 
                 to="/" 
-                className="hover:text-blue-200 dark:hover:text-blue-300 font-medium focus:outline-none focus:text-blue-200 py-1 px-2 transition-colors"
+                className="hover:text-blue-200 dark:hover:text-blue-300 font-medium focus:outline-none focus:text-blue-200 py-1 px-2 transition-all duration-300 border-b-2 border-transparent hover:border-blue-300 dark:hover:border-blue-400"
               >
                 Matches
               </Link>
@@ -84,7 +84,7 @@ function Header() {
             <li>
               <Link 
                 to="/scorecard" 
-                className="hover:text-blue-200 dark:hover:text-blue-300 font-medium focus:outline-none focus:text-blue-200 py-1 px-2 transition-colors"
+                className="hover:text-blue-200 dark:hover:text-blue-300 font-medium focus:outline-none focus:text-blue-200 py-1 px-2 transition-all duration-300 border-b-2 border-transparent hover:border-blue-300 dark:hover:border-blue-400"
               >
                 Scorecard
               </Link>
@@ -92,7 +92,7 @@ function Header() {
             <li>
               <Link 
                 to="/player-stats" 
-                className="hover:text-blue-200 dark:hover:text-blue-300 font-medium focus:outline-none focus:text-blue-200 py-1 px-2 transition-colors"
+                className="hover:text-blue-200 dark:hover:text-blue-300 font-medium focus:outline-none focus:text-blue-200 py-1 px-2 transition-all duration-300 border-b-2 border-transparent hover:border-blue-300 dark:hover:border-blue-400"
               >
                 Players
               </Link>
@@ -105,16 +105,16 @@ function Header() {
       {/* Mobile menu */}
       <div 
         id="mobile-menu"
-        className={`md:hidden dark:bg-gray-900 bg-blue-800 shadow-inner transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`md:hidden dark:bg-gray-900 bg-blue-800 shadow-inner transition-all duration-500 ease-in-out overflow-hidden ${
           mobileMenuOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
         }`}
         aria-hidden={!mobileMenuOpen}
       >
-        <ul className="space-y-3 py-2 px-4">
+        <ul className={`space-y-3 py-2 px-4 ${mobileMenuOpen ? 'fade-in-up' : ''}`}>
           <li>
             <Link 
               to="/" 
-              className="block py-2 px-2 hover:bg-blue-700 dark:hover:bg-gray-700 rounded font-medium transition-colors"
+              className="block py-2 px-2 hover:bg-blue-700 dark:hover:bg-gray-700 rounded font-medium transition-all duration-300 transform hover:translate-x-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               Matches
@@ -123,7 +123,7 @@ function Header() {
           <li>
             <Link 
               to="/scorecard" 
-              className="block py-2 px-2 hover:bg-blue-700 dark:hover:bg-gray-700 rounded font-medium transition-colors"
+              className="block py-2 px-2 hover:bg-blue-700 dark:hover:bg-gray-700 rounded font-medium transition-all duration-300 transform hover:translate-x-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               Scorecard
@@ -132,7 +132,7 @@ function Header() {
           <li>
             <Link 
               to="/player-stats" 
-              className="block py-2 px-2 hover:bg-blue-700 dark:hover:bg-gray-700 rounded font-medium transition-colors"
+              className="block py-2 px-2 hover:bg-blue-700 dark:hover:bg-gray-700 rounded font-medium transition-all duration-300 transform hover:translate-x-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               Players
